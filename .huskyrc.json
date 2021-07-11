@@ -1,0 +1,6 @@
+{
+    "hooks": {
+      "pre-coomit": "lint-staged"
+    }
+  }
+  
