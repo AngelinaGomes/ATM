@@ -1,5 +1,26 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-var */
 export class ATM {
+  private readonly bills: number[]
+  private readonly billAmmounts: number[]
+
+  constructor (bills: number[], billAmounts: number[]) {
+    this.bills = bills
+    this.billAmmounts = billAmounts
+  }
+
+  public getConfigurations (amount: number): Configurations {
+    const billsCopy = [...this.bills]
+    const billAmountsCopy = [...this.billAmmounts]
+    const initialVariation = new Array(this.bills.length).fill(0)
+    const allSolutions = ATM.solutions(billsCopy, billAmountsCopy, initialVariation, amount, 0)
+    const configurations: Configurations = {
+      moreHigherBills: allSolutions[0],
+      moreLowerBills: allSolutions[allSolutions.length - 1]
+    }
+    return configurations
+  }
+
   public static solutions (bills: number[], amounts: number[], variation: number[], amount: number, position: number): number[][] {
     const list: number[][] = []
     const value: number = ATM.compute(bills, variation)
@@ -33,4 +54,9 @@ export class ATM {
     }
     return ret
   }
+}
+
+export interface Configurations {
+  moreHigherBills: number[]
+  moreLowerBills: number[]
 }
